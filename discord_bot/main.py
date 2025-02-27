@@ -7,6 +7,9 @@ import asyncio
 # Load environment variables
 load_dotenv()
 
+# Get Discord token from environment
+DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+
 class DiscordBot(commands.Bot):
     def __init__(self):
         intents = discord.Intents.default()
@@ -26,7 +29,7 @@ class DiscordBot(commands.Bot):
 
 async def main():
     bot = DiscordBot()
-    await bot.start(os.getenv('DISCORD_TOKEN'))
+    await bot.start(DISCORD_TOKEN)
 
 if __name__ == "__main__":
     asyncio.run(main()) 
