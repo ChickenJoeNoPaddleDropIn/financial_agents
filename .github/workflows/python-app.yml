@@ -24,11 +24,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd discord
+          cd discord_bot
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run Discord bot
         run: |
-          cd discord
+          cd discord_bot
           python main.py
