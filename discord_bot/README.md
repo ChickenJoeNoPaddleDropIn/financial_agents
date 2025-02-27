@@ -10,7 +10,8 @@ discord_bot/
 │   ├── admin.py
 │   ├── fun.py
 │   ├── general.py
-│   └── stock.py
+│   ├── stock.py
+│   └── economy.py
 ├── config/
 │   ├── __init__.py
 │   └── settings.py
@@ -44,6 +45,27 @@ Real-time market data powered by Yahoo Finance API:
   - Shows: Price Change, Start/End Price
   - Example: `!history MSFT 14`
 
+### Earnings Calendar Commands
+Powered by Alpha Vantage API:
+
+- `!calendar [days]`
+  - Shows upcoming earnings for major index stocks
+  - Days: 1-30 (default: 7)
+  - Displays:
+    - Company name and symbol
+    - Estimated EPS
+  - Example: `!calendar 14`
+
+- `!today`
+  - Shows today's earnings reports
+  - Focused on major index components
+
+- `!components`
+  - Lists number of tracked stocks from:
+    - S&P 500
+    - NASDAQ-100
+    - Dow Jones
+
 ### General Commands
 Basic utility commands:
 
@@ -75,13 +97,15 @@ Moderation tools:
 ### Prerequisites
 - Python 3.8+
 - Discord Bot Token
+- Alpha Vantage API Key
 - Discord Server with admin privileges
 
 ### Installation
 1. Clone the repository
 2. Create a `.env` file:
 ```env
-DISCORD_TOKEN=your_token_here
+DISCORD_TOKEN=your_discord_token
+ALPHA_VANTAGE_API_KEY=your_alpha_vantage_key
 ```
 
 3. Install dependencies:
@@ -95,6 +119,7 @@ discord.py>=2.0.0
 yfinance==0.2.33
 pandas
 python-dotenv
+requests
 ```
 
 ## Configuration
@@ -123,16 +148,17 @@ The bot includes comprehensive error handling for:
 - Stock history limited to 30 days
 - Dice rolls limited to 100 dice
 - API calls optimized to prevent abuse
+- Alpha Vantage API limits respected
 
 ## Future Enhancements
 Planned features:
 - Stock comparison tools
 - Dividend tracking
 - Company news feed
-- Earnings calendar
 - Options chain data
 - Custom alerts
 - Portfolio tracking
+- Economic calendar integration
 
 ## Contributing
 Feel free to submit issues and pull requests.
