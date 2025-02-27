@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 import csv
 from io import StringIO
 import json
+import glob
+import pathlib
 
 class Economy(commands.Cog):
     def __init__(self, bot):
@@ -14,7 +16,11 @@ class Economy(commands.Cog):
         load_dotenv()
         self.api_key = os.getenv('ALPHA_VANTAGE_API_KEY')
         self.base_url = 'https://www.alphavantage.co/query'
-        self.events_file = 'data/economic_events.json'
+        
+        # Get the path relative to this file
+        current_dir = pathlib.Path(__file__).parent.parent
+        self.events_directory = current_dir / 'data'
+        self.economic_events = {}
         
         # Pre-compiled list of major index components
         self.sp500_stocks = {
@@ -74,13 +80,87 @@ class Economy(commands.Cog):
         self.load_events()
 
     def load_events(self):
-        """Load economic events from JSON file"""
+        """Load economic events from all monthly JSON files"""
         try:
-            with open(self.events_file, 'r') as f:
-                self.economic_events = json.load(f)
-        except FileNotFoundError:
+            # Get all JSON files in the data directory
+            json_pattern = os.path.join(self.events_directory, '*_economic_events.json')
+            json_files = glob.glob(json_pattern)
+            
+            print(f"Looking for files in: {self.events_directory}")
+            print(f"Pattern searching for: {json_pattern}")
+            
+            if not json_files:
+                print("No economic events files found")
+                print(f"Directory exists: {os.path.exists(self.events_directory)}")
+                if os.path.exists(self.events_directory):
+                    print(f"Directory contents: {os.listdir(self.events_directory)}")
+                return
+            
+            # Clear existing events
             self.economic_events = {}
-            print("No economic events file found")
+            
+            # Load and combine all JSON files
+            for file_path in json_files:
+                try:
+                    print(f"Loading file: {file_path}")
+                    with open(file_path, 'r') as f:
+                        month_events = json.load(f)
+                        self.economic_events.update(month_events)
+                except Exception as e:
+                    print(f"Error loading {file_path}: {str(e)}")
+            
+            if not self.economic_events:
+                print("No events loaded from JSON files")
+            else:
+                print(f"Successfully loaded events from {len(json_files)} files")
+                
+        except Exception as e:
+            print(f"Error loading economic events: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
+            self.economic_events = {}
+
+    @commands.command()
+    async def debug_events(self, ctx):
+        """Debug command to check events loading status"""
+        try:
+            embed = discord.Embed(
+                title="Events Debug Information",
+                color=0x808080
+            )
+            
+            embed.add_field(
+                name="Events Directory",
+                value=str(self.events_directory),
+                inline=False
+            )
+            
+            embed.add_field(
+                name="Directory Exists",
+                value=str(os.path.exists(self.events_directory)),
+                inline=False
+            )
+            
+            if os.path.exists(self.events_directory):
+                files = os.listdir(self.events_directory)
+                embed.add_field(
+                    name="Directory Contents",
+                    value="\n".join(files) if files else "Empty directory",
+                    inline=False
+                )
+            
+            embed.add_field(
+                name="Loaded Events Count",
+                value=str(len(self.economic_events)),
+                inline=False
+            )
+            
+            await ctx.send(embed=embed)
+            
+        except Exception as e:
+            await ctx.send(f"Error in debug: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
 
     @commands.command()
     async def events(self, ctx, timeframe: str = "week"):
@@ -102,7 +182,7 @@ class Economy(commands.Cog):
             embed = discord.Embed(
                 title=title,
                 description="Major economic events and releases",
-                color=0x00ff00
+                color=0x808080
             )
 
             # Filter and group events by date
@@ -112,7 +192,7 @@ class Economy(commands.Cog):
                 if date_str in self.economic_events:
                     events_text = ""
                     for event in self.economic_events[date_str]:
-                        importance = "🔴" if event['importance'] == "High" else "🟡" if event['importance'] == "Medium" else "🟢"
+                        importance = "🔴" if event['importance'] == "High" else "🟡" if event['importance'] == "Medium" else "⚫"
                         events_text += f"{importance} {event['time']} - {event['event']}\n"
                     
                     if events_text:
