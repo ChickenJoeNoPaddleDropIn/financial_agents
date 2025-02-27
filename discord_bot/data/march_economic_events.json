@@ -1,0 +1,569 @@
+{
+    "2025-03-01": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-02": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-03": [
+        {
+            "time": "12:05am EST",
+            "event": "FOMC Member Musalem Speaks",
+            "importance": "Low"
+        },
+        {
+            "time": "09:45am EST",
+            "event": "Final Manufacturing PMI",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "ISM Manufacturing PMI",
+            "importance": "High"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "ISM Manufacturing Prices",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Construction Spending m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "All Day EST",
+            "event": "Wards Total Vehicle Sales",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-04": [
+        {
+            "time": "Tentative EST",
+            "event": "RCM/TIPP Economic Optimism",
+            "importance": "Low"
+        },
+        {
+            "time": "02:20pm EST",
+            "event": "FOMC Member Williams Speaks",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-05": [
+        {
+            "time": "08:15am EST",
+            "event": "ADP Non-Farm Employment Change",
+            "importance": "High"
+        },
+        {
+            "time": "09:45am EST",
+            "event": "Final Services PMI",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "ISM Services PMI",
+            "importance": "High"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Factory Orders m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "10:30am EST",
+            "event": "Crude Oil Inventories",
+            "importance": "Medium"
+        },
+        {
+            "time": "02:00pm EST",
+            "event": "Beige Book",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-06": [
+        {
+            "time": "07:30am EST",
+            "event": "Challenger Job Cuts y/y",
+            "importance": "Low"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Unemployment Claims",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Revised Nonfarm Productivity q/q",
+            "importance": "Low"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Revised Unit Labor Costs q/q",
+            "importance": "Low"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Trade Balance",
+            "importance": "Low"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Final Wholesale Inventories m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "10:30am EST",
+            "event": "Natural Gas Storage",
+            "importance": "Low"
+        },
+        {
+            "time": "03:30pm EST",
+            "event": "FOMC Member Waller Speaks",
+            "importance": "Medium"
+        },
+        {
+            "time": "07:00pm EST",
+            "event": "FOMC Member Bostic Speaks",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-07": [
+        {
+            "time": "08:30am EST",
+            "event": "Average Hourly Earnings m/m",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Non-Farm Employment Change",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Unemployment Rate",
+            "importance": "High"
+        },
+        {
+            "time": "10:45am EST",
+            "event": "FOMC Member Williams Speaks",
+            "importance": "Low"
+        },
+        {
+            "time": "Tentative EST",
+            "event": "Fed Chair Powell Speaks",
+            "importance": "High"
+        },
+        {
+            "time": "03:00pm EST",
+            "event": "Consumer Credit m/m",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-08": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-09": [
+        {
+            "time": "03:00am EST",
+            "event": "Daylight Saving Time Shift",
+            "importance": "Non-Economic"
+        }
+    ],
+    "2025-03-10": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-11": [
+        {
+            "time": "06:00am EST",
+            "event": "NFIB Small Business Index",
+            "importance": "Low"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "JOLTS Job Openings",
+            "importance": "High"
+        }
+    ],
+    "2025-03-12": [
+        {
+            "time": "08:30am EST",
+            "event": "Core CPI m/m",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "CPI m/m",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "CPI y/y",
+            "importance": "High"
+        },
+        {
+            "time": "10:30am EST",
+            "event": "Crude Oil Inventories",
+            "importance": "Medium"
+        },
+        {
+            "time": "01:01pm EST",
+            "event": "10-y Bond Auction",
+            "importance": "Low"
+        },
+        {
+            "time": "02:00pm EST",
+            "event": "Federal Budget Balance",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-13": [
+        {
+            "time": "08:30am EST",
+            "event": "Core PPI m/m",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "PPI m/m",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Unemployment Claims",
+            "importance": "High"
+        },
+        {
+            "time": "10:30am EST",
+            "event": "Natural Gas Storage",
+            "importance": "Low"
+        },
+        {
+            "time": "01:01pm EST",
+            "event": "30-y Bond Auction",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-14": [
+        {
+            "time": "10:00am EST",
+            "event": "Prelim UoM Consumer Sentiment",
+            "importance": "High"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Prelim UoM Inflation Expectations",
+            "importance": "High"
+        }
+    ],
+    "2025-03-15": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-16": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-17": [
+        {
+            "time": "08:30am EST",
+            "event": "Core Retail Sales m/m",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Retail Sales m/m",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Empire State Manufacturing Index",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Business Inventories m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "NAHB Housing Market Index",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-18": [
+        {
+            "time": "08:30am EST",
+            "event": "Building Permits",
+            "importance": "Low"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Housing Starts",
+            "importance": "Low"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Import Prices m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "09:15am EST",
+            "event": "Capacity Utilization Rate",
+            "importance": "Low"
+        },
+        {
+            "time": "09:15am EST",
+            "event": "Industrial Production m/m",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-19": [
+        {
+            "time": "10:30am EST",
+            "event": "Crude Oil Inventories",
+            "importance": "Medium"
+        },
+        {
+            "time": "02:00pm EST",
+            "event": "Federal Funds Rate",
+            "importance": "High"
+        },
+        {
+            "time": "02:00pm EST",
+            "event": "FOMC Economic Projections",
+            "importance": "High"
+        },
+        {
+            "time": "02:00pm EST",
+            "event": "FOMC Statement",
+            "importance": "High"
+        },
+        {
+            "time": "02:30pm EST",
+            "event": "FOMC Press Conference",
+            "importance": "High"
+        },
+        {
+            "time": "04:00pm EST",
+            "event": "TIC Long-Term Purchases",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-20": [
+        {
+            "time": "08:30am EST",
+            "event": "Unemployment Claims",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Philly Fed Manufacturing Index",
+            "importance": "Medium"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Current Account",
+            "importance": "Low"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Existing Home Sales",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "CB Leading Index m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "10:30am EST",
+            "event": "Natural Gas Storage",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-21": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-22": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-23": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-24": [
+        {
+            "time": "09:45am EST",
+            "event": "Flash Manufacturing PMI",
+            "importance": "High"
+        },
+        {
+            "time": "09:45am EST",
+            "event": "Flash Services PMI",
+            "importance": "High"
+        }
+    ],
+    "2025-03-25": [
+        {
+            "time": "09:00am EST",
+            "event": "S&P/CS Composite-20 HPI y/y",
+            "importance": "Medium"
+        },
+        {
+            "time": "09:00am EST",
+            "event": "HPI m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "CB Consumer Confidence",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "New Home Sales",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Richmond Manufacturing Index",
+            "importance": "Medium"
+        }
+    ],
+    "2025-03-26": [
+        {
+            "time": "08:30am EST",
+            "event": "Core Durable Goods Orders m/m",
+            "importance": "Medium"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Durable Goods Orders m/m",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:30am EST",
+            "event": "Crude Oil Inventories",
+            "importance": "Medium"
+        }
+    ],
+    "2025-03-27": [
+        {
+            "time": "08:30am EST",
+            "event": "Unemployment Claims",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Goods Trade Balance",
+            "importance": "Low"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Prelim Wholesale Inventories m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Pending Home Sales m/m",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:30am EST",
+            "event": "Natural Gas Storage",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-28": [
+        {
+            "time": "08:30am EST",
+            "event": "Core PCE Price Index m/m",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Final GDP q/q",
+            "importance": "High"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Final GDP Price Index q/q",
+            "importance": "Medium"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Personal Income m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "08:30am EST",
+            "event": "Personal Spending m/m",
+            "importance": "Low"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Revised UoM Consumer Sentiment",
+            "importance": "Medium"
+        },
+        {
+            "time": "10:00am EST",
+            "event": "Revised UoM Inflation Expectations",
+            "importance": "Low"
+        }
+    ],
+    "2025-03-29": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-30": [
+        {
+            "time": "All Day EST",
+            "event": "No Events Scheduled",
+            "importance": "None"
+        }
+    ],
+    "2025-03-31": [
+        {
+            "time": "09:45am EST",
+            "event": "Chicago PMI",
+            "importance": "Medium"
+        }
+    ]
+}
