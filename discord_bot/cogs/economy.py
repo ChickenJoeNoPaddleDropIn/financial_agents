@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import csv
 from io import StringIO
+import json
 
 class Economy(commands.Cog):
     def __init__(self, bot):
@@ -13,6 +14,7 @@ class Economy(commands.Cog):
         load_dotenv()
         self.api_key = os.getenv('ALPHA_VANTAGE_API_KEY')
         self.base_url = 'https://www.alphavantage.co/query'
+        self.events_file = 'data/economic_events.json'
         
         # Pre-compiled list of major index components
         self.sp500_stocks = {
@@ -68,6 +70,70 @@ class Economy(commands.Cog):
 
         # Combine all indices
         self.major_stocks = self.sp500_stocks | self.nasdaq100_additional | self.dow30_additional
+
+        self.load_events()
+
+    def load_events(self):
+        """Load economic events from JSON file"""
+        try:
+            with open(self.events_file, 'r') as f:
+                self.economic_events = json.load(f)
+        except FileNotFoundError:
+            self.economic_events = {}
+            print("No economic events file found")
+
+    @commands.command()
+    async def events(self, ctx, timeframe: str = "week"):
+        """Show economic events for day/week/month
+        Usage: !events [day|week|month]"""
+        try:
+            today = datetime.now().date()
+            
+            if timeframe.lower() == "day":
+                end_date = today
+                title = "Today's Economic Events"
+            elif timeframe.lower() == "month":
+                end_date = today + timedelta(days=30)
+                title = "Economic Events - Next 30 Days"
+            else:  # default to week
+                end_date = today + timedelta(days=7)
+                title = "Economic Events - Next 7 Days"
+
+            embed = discord.Embed(
+                title=title,
+                description="Major economic events and releases",
+                color=0x00ff00
+            )
+
+            # Filter and group events by date
+            current_date = today
+            while current_date <= end_date:
+                date_str = current_date.strftime('%Y-%m-%d')
+                if date_str in self.economic_events:
+                    events_text = ""
+                    for event in self.economic_events[date_str]:
+                        importance = "🔴" if event['importance'] == "High" else "🟡" if event['importance'] == "Medium" else "🟢"
+                        events_text += f"{importance} {event['time']} - {event['event']}\n"
+                    
+                    if events_text:
+                        embed.add_field(
+                            name=current_date.strftime("%Y-%m-%d"),
+                            value=events_text.strip(),
+                            inline=False
+                        )
+                
+                current_date += timedelta(days=1)
+
+            if not embed.fields:
+                await ctx.send(f"No economic events found for this {timeframe}.")
+                return
+
+            await ctx.send(embed=embed)
+
+        except Exception as e:
+            await ctx.send(f"Error fetching economic events: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
 
     @commands.command()
     async def calendar(self, ctx, days: int = 7):
