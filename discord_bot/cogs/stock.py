@@ -14,10 +14,18 @@ class Stock(commands.Cog):
         Usage: !price AAPL"""
         try:
             stock = yf.Ticker(ticker)
-            current = stock.fast_info
-            await ctx.send(f"💰 {ticker.upper()}: ${current.last_price:.2f}")
+            info = stock.info
+            current_price = info.get('regularMarketPrice', 0)
+            
+            if not current_price:
+                await ctx.send(f"Unable to get current price data for {ticker}. The market might be closed.")
+                return
+                
+            await ctx.send(f"💰 {ticker.upper()}: ${current_price:.2f}")
         except Exception as e:
             await ctx.send(f"Error getting price for {ticker}: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
 
     @commands.command()
     async def summary(self, ctx, ticker: str):
@@ -25,17 +33,33 @@ class Stock(commands.Cog):
         Usage: !summary AAPL"""
         try:
             stock = yf.Ticker(ticker)
-            info = stock.fast_info
             
-            embed = discord.Embed(title=f"{ticker.upper()} Summary", color=0x00ff00)
-            embed.add_field(name="Current Price", value=f"${info.last_price:.2f}", inline=True)
-            embed.add_field(name="Day High", value=f"${info.day_high:.2f}", inline=True)
-            embed.add_field(name="Day Low", value=f"${info.day_low:.2f}", inline=True)
-            embed.add_field(name="Volume", value=f"{info.last_volume:,}", inline=True)
+            # Get basic info first
+            info = stock.info
+            current_price = info.get('regularMarketPrice', 0)
+            day_high = info.get('dayHigh', 0)
+            day_low = info.get('dayLow', 0)
+            volume = info.get('volume', 0)
+            
+            if not current_price:
+                await ctx.send(f"Unable to get current price data for {ticker}. The market might be closed.")
+                return
+            
+            embed = discord.Embed(title=f"{ticker.upper()} Summary", color=0x808080)
+            embed.add_field(name="Current Price", value=f"${current_price:.2f}", inline=True)
+            
+            if day_high:
+                embed.add_field(name="Day High", value=f"${day_high:.2f}", inline=True)
+            if day_low:
+                embed.add_field(name="Day Low", value=f"${day_low:.2f}", inline=True)
+            if volume:
+                embed.add_field(name="Volume", value=f"{volume:,}", inline=True)
             
             await ctx.send(embed=embed)
         except Exception as e:
             await ctx.send(f"Error getting summary for {ticker}: {str(e)}")
+            import traceback
+            print(traceback.format_exc())
 
     @commands.command()
     async def history(self, ctx, ticker: str, days: int = 7):
