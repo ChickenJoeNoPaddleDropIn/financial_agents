@@ -3,36 +3,21 @@ import yfinance as yf
 import discord
 from datetime import datetime, timedelta
 import pandas as pd
-import time
+from utils.rate_limiting import RateLimitedCache
 
 class Stock(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.last_request = 0
-        self.min_delay = 2  # Minimum seconds between requests
-        self.cache = {}
-        self.cache_ttl = 300  # 5 minutes cache
-
-    def _throttle(self):
-        """Basic rate limiting"""
-        now = time.time()
-        time_passed = now - self.last_request
-        if time_passed < self.min_delay:
-            time.sleep(self.min_delay - time_passed)
-        self.last_request = time.time()
+        self.cache = RateLimitedCache(cache_ttl=300, min_delay=2.0)  # 5 min cache, 2s delay
 
     def _get_stock_info(self, ticker):
         """Get stock info with caching and rate limiting"""
-        now = time.time()
-        
-        # Check cache
-        if ticker in self.cache:
-            cached_time, cached_data = self.cache[ticker]
-            if now - cached_time < self.cache_ttl:
-                return cached_data
+        # Check cache first
+        cached_info = self.cache.get(ticker)
+        if cached_info is not None:
+            return cached_info
 
         # If not in cache or expired, fetch new data
-        self._throttle()
         stock = yf.Ticker(ticker)
         try:
             info = {
@@ -43,7 +28,7 @@ class Stock(commands.Cog):
                 'name': stock.info.get('shortName', ticker.upper())
             }
             # Store in cache
-            self.cache[ticker] = (now, info)
+            self.cache.set(ticker, info)
             return info
         except Exception as e:
             print(f"Error fetching {ticker}: {str(e)}")
@@ -120,9 +105,16 @@ class Stock(commands.Cog):
                 await ctx.send("Please request 30 days or fewer!")
                 return
             
-            self._throttle()  # Rate limit the history request
-            stock = yf.Ticker(ticker)
-            hist = stock.history(period=f"{days}d")
+            # Use a different cache key for historical data
+            cache_key = f"{ticker}_history_{days}"
+            cached_hist = self.cache.get(cache_key)
+            
+            if cached_hist is not None:
+                hist = cached_hist
+            else:
+                stock = yf.Ticker(ticker)
+                hist = stock.history(period=f"{days}d")
+                self.cache.set(cache_key, hist)
             
             if hist.empty:
                 await ctx.send(f"No historical data available for {ticker}")
