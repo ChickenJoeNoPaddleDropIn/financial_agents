@@ -182,7 +182,7 @@ class Economy(commands.Cog):
             embed = discord.Embed(
                 title=title,
                 description="Major economic events and releases",
-                color=0x808080
+                color=0x00ff00
             )
 
             # Filter and group events by date

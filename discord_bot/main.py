@@ -19,10 +19,9 @@ class DiscordBot(commands.Bot):
         
     async def setup_hook(self):
         # Load all cogs
-        for filename in os.listdir('./cogs'):
-            if filename.endswith('.py') and not filename.startswith('__'):  # Skip __init__.py
-                await self.load_extension(f'cogs.{filename[:-3]}')
-                
+        await self.load_extension('cogs.reports')
+        await self.load_extension('cogs.economy')
+        
     async def on_ready(self):
         print(f'{self.user} has connected to Discord!')
         print(f'Bot is in {len(self.guilds)} guilds')

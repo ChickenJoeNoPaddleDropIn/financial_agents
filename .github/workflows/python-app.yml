@@ -5,9 +5,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+  schedule:
+    - cron: '0 10 * * 1-5'  # Runs at 10:00 UTC (6 AM Eastern) Monday-Friday
 
 env:
   DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+  DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_BOT_CHANNEL_ID }}
 
 jobs:
   run-bot:
@@ -27,7 +30,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Discord bot
+      - name: Run Discord bot with reports
         run: |
           cd discord_bot
-          python main.py
+          if [ $(date +%u) -eq 1 ]; then
+            # Monday - run weekly report
+            python scripts/weekly_report.py
+          else
+            # Other weekdays - run daily report
+            python scripts/daily_report.py
+          fi
