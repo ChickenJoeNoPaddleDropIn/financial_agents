@@ -69,17 +69,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
+from selenium.webdriver.common.keys import Keys
+
 def scrape_forex_factory():
     """
     Scrapes economic events from ForexFactory for the current month.
-    Returns a dictionary with dates (YYYY-MM-DD) as keys and lists of event IDs as values.
+    Returns True if successful, False otherwise.
     """
     options = Options()
-    # Disable headless mode by not adding the headless flag
+    # For now, do not run headless (visible browser)
     # options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    # Option to help mimic a real browser (optional)
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument(
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -98,29 +99,31 @@ def scrape_forex_factory():
         
         driver.get(url)
         
-        # Optional: Scroll down to ensure all dynamic content is loaded
-        previous_scroll = -1
+        # Simulated scrolling using PAGE_DOWN keys to mimic user scrolling
+        body = driver.find_element(By.TAG_NAME, "body")
+        prev_scroll = 0
         while True:
-            current_scroll = driver.execute_script("return window.pageYOffset;")
-            if current_scroll == previous_scroll:
+            body.send_keys(Keys.PAGE_DOWN)
+            time.sleep(2)  # allow content to load
+            curr_scroll = driver.execute_script("return window.pageYOffset;")
+            if curr_scroll == prev_scroll:
                 break
-            previous_scroll = current_scroll
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(5)  # increased sleep time
-
+            prev_scroll = curr_scroll
+        
         # Wait until the calendar table is loaded
         wait = WebDriverWait(driver, 10)
         calendar_table = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "calendar__table")))
+        # Uncomment below to inspect full HTML if needed:
+        # print(calendar_table.get_attribute("outerHTML"))
 
-        print(calendar_table.get_attribute("outerHTML"))
-
-        month_events = {}
+        month_data = {}
         current_date = None
         
-        # Iterate through all rows in the calendar table
         rows = calendar_table.find_elements(By.TAG_NAME, "tr")
         for row in rows:
             classes = row.get_attribute("class").split()
+            
+            # Process date rows
             if "calendar__row--day-breaker" in classes:
                 try:
                     td = row.find_element(By.TAG_NAME, "td")
@@ -129,29 +132,82 @@ def scrape_forex_factory():
                     match = re.search(r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2}", td_text, re.IGNORECASE)
                     if match:
                         date_str = match.group(0)  # e.g., "Feb 6"
-                        new_date = datetime.strptime(f"{date_str} {year}", "%b %d %Y").strftime("%Y-%m-%d")
-                        current_date = new_date
+                        current_date = datetime.strptime(f"{date_str} {year}", "%b %d %Y").strftime("%Y-%m-%d")
+                        month_data[current_date] = []
                         print(f"\nFound new date: {current_date}")
                     else:
                         print("No valid date found in day-breaker row from td text.")
                 except Exception as e:
-                    print("Error processing day-breaker row:", e)
+                    print("Error processing date row:", e)
                 continue  # Skip processing the day-breaker row
 
-            # Process event rows
-            if row.get_attribute("data-event-id"):
-                if current_date:
-                    event_id = row.get_attribute("data-event-id")
-                    if event_id:
-                        month_events.setdefault(current_date, []).append(event_id)
-                        print(f"Added event {event_id} to date {current_date}")
-                    else:
-                        print("Event row without a valid event_id.")
-                else:
-                    print("Event row encountered before any valid date was set.")
+            # Process event rows (only if current_date is set)
+            if current_date and row.get_attribute("data-event-id"):
+                try:
+                    event = {}
                     
-        print(f"\nTotal dates processed: {len(month_events)}")
-        return month_events
+                    # Extract time
+                    try:
+                        time_cell = row.find_element(By.CLASS_NAME, "calendar__time")
+                        time_divs = time_cell.find_elements(By.TAG_NAME, "div")
+                        if time_divs:
+                            time_text = time_divs[0].text.strip()
+                        else:
+                            time_text = time_cell.text.strip()
+                        event['time'] = time_text if time_text else "All Day"
+                    except Exception:
+                        event['time'] = "All Day"
+
+                    # Extract currency
+                    try:
+                        currency_cell = row.find_element(By.CLASS_NAME, "calendar__currency")
+                        event['currency'] = currency_cell.text.strip()
+                    except Exception:
+                        event['currency'] = ""
+
+                    # Extract event name (using your simplify_event_name function)
+                    try:
+                        event_cell = row.find_element(By.CLASS_NAME, "calendar__event")
+                        titles = event_cell.find_elements(By.CLASS_NAME, "calendar__event-title")
+                        if titles:
+                            event_name = titles[0].text.strip()
+                        else:
+                            event_name = event_cell.text.strip()
+                        event['event'] = simplify_event_name(event_name)
+                    except Exception:
+                        event['event'] = ""
+                    
+                    # Extract importance
+                    try:
+                        impact_cell = row.find_element(By.CLASS_NAME, "calendar__impact")
+                        icons = impact_cell.find_elements(By.TAG_NAME, "span")
+                        if icons:
+                            impact_class = icons[0].get_attribute("class")
+                        else:
+                            impact_class = impact_cell.text.strip()
+                        if "ff-impact-red" in impact_class:
+                            event['importance'] = "High"
+                        elif "ff-impact-ora" in impact_class:
+                            event['importance'] = "Medium"
+                        elif "ff-impact-yel" in impact_class:
+                            event['importance'] = "Low"
+                        else:
+                            event['importance'] = "Non-Economic"
+                    except Exception:
+                        event['importance'] = "Unknown"
+
+                    month_data[current_date].append(event)
+                    print(f"Added event on {current_date}: {event}")
+                except Exception as e:
+                    print(f"Error processing event row: {e}")
+                    continue
+            elif row.get_attribute("data-event-id"):
+                print("Event row encountered before any valid date was set.")
+                    
+        print(f"\nTotal dates processed: {len(month_data)}")
+        # Update the cache with the new data.
+        event_cache.month_data = month_data
+        return True
 
     except Exception as e:
         print(f"Error in scraping: {e}")
