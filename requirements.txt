@@ -113,3 +113,5 @@ xmltodict==0.13.0
 yarl==1.18.3
 yfinance==0.2.54
 zipp==3.21.0
+selenium>=4.0.0
+webdriver-manager>=3.8.0
