@@ -163,9 +163,9 @@ class Economy(commands.Cog):
             print(traceback.format_exc())
 
     @commands.command()
-    async def events(self, ctx, timeframe: str = "week"):
+    async def econ_events(self, ctx, timeframe: str = "week"):
         """Show economic events for day/week/month
-        Usage: !events [day|week|month]"""
+        Usage: !econ_events [day|week|month]"""
         try:
             today = datetime.now().date()
             
@@ -216,10 +216,22 @@ class Economy(commands.Cog):
             print(traceback.format_exc())
 
     @commands.command()
-    async def calendar(self, ctx, days: int = 7):
-        """Get earnings calendar events for the next N days
-        Usage: !calendar [days]"""
+    async def earnings(self, ctx, timeframe: str = "week"):
+        """Get earnings calendar events for day/week/month
+        Usage: !earnings [day|week|month]"""
         try:
+            today = datetime.now().date()
+            
+            if timeframe.lower() == "day":
+                days = 1
+                title = "Today's Earnings Calendar"
+            elif timeframe.lower() == "month":
+                days = 30
+                title = "Earnings Calendar - Next 30 Days"
+            else:  # default to week
+                days = 7
+                title = "Earnings Calendar - Next 7 Days"
+
             url = f'{self.base_url}?function=EARNINGS_CALENDAR&horizon=3month&apikey={self.api_key}'
             
             response = requests.get(url)
@@ -248,11 +260,11 @@ class Economy(commands.Cog):
                     date_groups[event_date].append(event)
 
             if not date_groups:
-                await ctx.send("No major index earnings events found for this period.")
+                await ctx.send(f"No major index earnings events found for this {timeframe}.")
                 return
 
             current_embed = discord.Embed(
-                title=f"📅 Major Index Earnings Calendar - Next {days} Days",
+                title=title,
                 description="Showing earnings for major S&P 500, NASDAQ-100, and Dow Jones companies",
                 color=0x00ff00
             )
@@ -292,7 +304,7 @@ class Economy(commands.Cog):
     @commands.command()
     async def today(self, ctx):
         """Get today's major index earnings reports"""
-        await self.calendar(ctx, days=1)
+        await self.earnings(ctx, "day")
 
     @commands.command()
     async def components(self, ctx):
