@@ -21,6 +21,7 @@ class DiscordBot(commands.Bot):
         # Load all cogs
         await self.load_extension('cogs.reports')
         await self.load_extension('cogs.economy')
+        await self.load_extension('cogs.fun')
         
     async def on_ready(self):
         print(f'{self.user} has connected to Discord!')
