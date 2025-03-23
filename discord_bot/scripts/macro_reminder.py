@@ -15,7 +15,7 @@ CHANNEL_ID = int(os.getenv("TRADING_CHANNEL_ID"))  # Convert to integer since Di
 def get_message_content(time_str):
     # Special time-based messages
     if time_str == "9:30":
-        return "Ding! Ding! Ding! 🔔\nWhat do you see? 👁️"
+        return "Ding! Ding! Ding! 🔔\nFocus. 👁️"
     elif time_str == "11:30":
         return "Lunch Time 🍱\nWhat do you see? 👁️"
     elif time_str == "3:15":
@@ -24,7 +24,7 @@ def get_message_content(time_str):
         return "Market On Close 📊\nWhat do you see? 👁️"
     
     # Regular macro time messages
-    return f"{time_str} Macro Time! 🎯\nWhat do you see? 👁️"
+    return f"{time_str} Macro Time!\nWhat do you see? 👁️"
 
 async def send_macro_reminder(time_str):
     if not CHANNEL_ID:
