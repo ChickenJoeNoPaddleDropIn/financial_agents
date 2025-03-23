@@ -1,12 +1,12 @@
 name: Run Discord Bot
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-  schedule:
-    - cron: '0 10 * * 1-5'  # Runs at 10:00 UTC (6 AM Eastern) Monday-Friday
+# on:
+#   push:
+#     branches:
+#       - main
+#   workflow_dispatch:
+#   schedule:
+#     - cron: '0 10 * * 1-5'  # Runs at 10:00 UTC (6 AM Eastern) Monday-Friday
 
 env:
   DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
